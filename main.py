@@ -18,16 +18,19 @@ def create_app():
 
     # configuring our app:
     app.config.from_object("config.app_config")
-    
+
     # creating our database object! This allows us to use our ORM
     db.init_app(app)
-
+    
     # creating our marshmallow object! This allows us to use schemas
     ma.init_app(app)
 
     #creating the jwt and bcrypt objects! this allows us to use authentication
     bcrypt.init_app(app)
     jwt.init_app(app)
+
+    from commands import db_commands
+    app.register_blueprint(db_commands)
 
     # import the controllers and activate the blueprints
     from controllers import registerable_controllers
